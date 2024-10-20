@@ -1,0 +1,335 @@
+header {
+    width: 100%;
+    height: 18vh;
+    border-bottom: 0.3vh solid #616161;
+    background-color: #f5f5f5;
+}
+body {
+    margin: 0;
+    overflow: hidden;
+}
+.lg {
+    width: 50%;
+    float: left;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lg img {
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+}
+.lg div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 3vh;
+    color: #616161;
+}
+.lg div h1 {
+    margin: 0;
+    text-align: left;
+    width: 100%;
+}
+.lg div p {
+    margin: 0;
+}
+html {
+    font-family: "Roboto", sans-serif;
+}
+.lte {
+    width: 5vw;
+    float: left;
+    height: 82vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vh;
+    background-color: #f5f5f5;
+    border-right: 0.3vh solid #616161;
+}
+
+.lte ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.lte li {
+    background-color: #ddd9d9;
+    height: 11vh;
+    width: 100%;
+    border-bottom: 0.3vh solid #616161;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.3s;
+}
+.lte li a img {
+    height: 6vh;
+    user-select: none;
+}
+.lte li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 11vh;
+}
+
+.lte li:hover {
+    background-color: #bbb8b8;
+}
+
+.tab {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    background-color: #f5f5f5;
+}
+
+.tab table {
+    width: 100%;
+    height: fit-content;
+    border-collapse: collapse;
+}
+
+.tab-content {
+    overflow: auto;
+    width: 100%;
+    height: 82vh;
+}
+
+.tab table th,
+.tab table td {
+    border: 0.1vh solid #616161;
+    padding: 1vh;
+    text-align: center;
+}
+
+.tab table th {
+    background-color: #ddd9d9;
+}
+.log {
+    width: 50%;
+    float: right;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+#ft {
+    width: 8vh;
+    height: 8vh;
+    border: 0.3vh solid #000000;
+    border-radius: 100%;
+    margin-right: 3vh;
+}
+#us {
+    margin-right: 3vh;
+    font-size: 3vh;
+    color: #3f5531;
+}
+.cad {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.alunos tr td button {
+    width: 100%;
+    height: 100%;
+    font-size: 2.5vh;
+    background-color: #e7e7e7;
+    color: #000000;
+    border: 0.1vh solid #616161;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 1vh;
+}
+
+.alunos tr td button:hover {
+    background-color: #cccccc;
+}
+
+.alunos tr td button:active {
+    background-color: #999999;
+}
+.alunos tr td img {
+    height: 10vh;
+}
+.opt {
+    width: 15vw;
+    height: fit-content;
+    border: 0.3vh solid #616161;
+    border-radius: 1vh;
+    position: absolute;
+    top: 14vh;
+    right: 1vw;
+    display: none;
+    opacity: 0;
+    transition-duration: 0.3s;
+}
+
+.opt button {
+    width: 100%;
+    height: 7vh;
+    font-size: 3vh;
+    background-color: #ffa7a7;
+    color: #000000;
+    border: 0.1vh solid #616161;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 1vh;
+    letter-spacing: 0.1vw;
+}
+
+.opt button:hover {
+    background-color: #ffd5d5;
+}
+
+.opt button:active {
+    background-color: #ff6767;
+}
+
+#add {
+    width: 100%;
+    height: 10vh;
+    font-size: 3vh;
+    background-color: #dadada;
+    color: #000000;
+    border: 0.3vh solid #616161;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 1vh;
+    letter-spacing: 0.1vw;
+}
+
+#add:hover {
+    background-color: #999999;
+}
+
+#add:active {
+    background-color: #666666;
+}
+
+.cadalct {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #00000070;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    transition-duration: 0.3s;
+    top: 0;
+    opacity: 0;
+}
+
+.cadal {
+    width: 50vw;
+    height: 80vh;
+    background-color: #ffffff;
+    border: 0.3vh solid #616161;
+    border-radius: 3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+.info {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#fch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8vh;
+    height: 8vh;
+    background-color: #ff6767;
+    color: #ffffff;
+    border: 0.3vh solid #616161;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#fch:hover {
+    background-color: #fa9e9e;
+}
+
+#fch:active {
+    background-color: #cc2f2f;
+}
+
+#fch img {
+    height: 60%;
+}
+
+.pes {
+    width: 100%;
+    height: 5vh;
+    background-color: #ffffff;
+    border: 0.3vh solid #616161;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.pes input {
+    height: 70%;
+    font-size: 3vh;
+}
+.pes div {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 5vh;
+    flex-wrap: nowrap;
+}
+.pes div form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+#pesq {
+    width: 80%;
+    height: 100%;
+    font-size: 3vh;
+    background-color: #f1f1f1;
+    color: #000000;
+    border: 0.1vh solid #616161;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 1vh;
+}
+
+#pesq:hover {
+    background-color: #cccccc;
+}
+
+#pesq:active {
+    background-color: #999999;
+}

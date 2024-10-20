@@ -3,7 +3,7 @@
     $db_server = "localhost";
     $db_user = "root";
     $db_pass = "";
-    $db_name = "Pedagogia";
+    $db_name = "sistemap";
     $conn = "";
 
     try{
@@ -12,4 +12,3 @@
     catch(mysqli_sql_exception){
         echo"Não foi possível conectar.";
     }
-?>

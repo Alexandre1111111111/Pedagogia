@@ -155,6 +155,12 @@ html {
     transition-duration: 0.3s;
     border-radius: 1vh;
 }
+.alunos tr {
+    cursor: pointer;
+}
+.alunos tr:hover {
+    background-color: #d4caca;
+}
 
 .alunos tr td button:hover {
     background-color: #cccccc;
@@ -332,4 +338,127 @@ html {
 
 #pesq:active {
     background-color: #999999;
+}
+.del {
+    width: 20vw;
+    height: 12vh;
+    background-color: #ffffff;
+    border: 0.1vh solid #616161;
+    transition-duration: 0.3s;
+    border-top-left-radius: 10vh;
+    position: absolute;
+    right: 0;
+    bottom: -12vh;
+    display: none;
+    align-items: center;
+    justify-content: space-evenly;
+    opacity: 0;
+}
+.del button {
+    width: 8vh;
+    height: 8vh;
+    font-size: 3vh;
+    color: #ffffff;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 1vh;
+    background-color: #99999975;
+    margin-left: 3vh;
+}
+.editar {
+    border: 0.1vh solid #73e964;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editar:hover {
+    background-color: #50cc4a;
+}
+
+.delet {
+    border: 0.1vh solid #ff4d4d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delet:hover {
+    background-color: #ff3333;
+}
+
+.editar img {
+    height: 70%;
+}
+
+.delet img {
+    height: 70%;
+}
+
+.editar:active {
+    background-color: #389b33;
+}
+
+.delet:active {
+    background-color: #cc2f2f;
+}
+
+.del form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.excct {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #00000070;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    transition-duration: 0.3s;
+    top: 0;
+    opacity: 0;
+}
+.exc {
+    width: 40vw;
+    height: 80vh;
+    background-color: #ffffff;
+    border: 0.3vh solid #616161;
+    border-radius: 3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+#fche {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8vh;
+    height: 8vh;
+    background-color: #ff6767;
+    color: #ffffff;
+    border: 0.3vh solid #616161;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#fche:hover {
+    background-color: #fa9e9e;
+}
+
+#fche:active {
+    background-color: #cc2f2f;
+}
+
+#fche img {
+    height: 60%;
 }

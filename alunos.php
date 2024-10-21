@@ -77,9 +77,17 @@
     <script>
     let lin;
     </script>
+        <div class="del">
+            <button title="Editar" class="editar"><img src="https://cdn-icons-png.flaticon.com/512/2280/2280532.png" alt=""></button>
+            <button title="Excluir" class="delet"><img src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png" alt=""></button>
+        </div>
+        <div class="excct">
+            <div class="exc">
+            <button id="fche"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
+            </div>
+        </div>
     <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $_SESSION["foto"] = $_POST["foto"];
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"])){
         $_SESSION["nome"] = $_POST["nome"];
         $_SESSION["ano"] = $_POST["ano"];
         $_SESSION["turma"] = $_POST["turma"];
@@ -94,8 +102,15 @@
         $_SESSION["data"] = $_POST["data"];
         $_SESSION["registro"] = $_POST["registro"];
         $_SESSION["adendos"] = $_POST["adendos"];
+
+        $nomeArquivo = $_FILES['foto']['name']; 
+        $diretorioDestino = "uploads/";
+        $nomeArquivoNovo = uniqid() . "_" . basename($nomeArquivo);
+        $caminhoCompleto = $diretorioDestino . $nomeArquivoNovo;
+        if (move_uploaded_file($_FILES['foto']['tmp_name'], $caminhoCompleto)) {
+            echo "Imagem carregada com sucesso!<br>";
+        }
         
-        $foto = filter_input(INPUT_POST, "foto", FILTER_SANITIZE_SPECIAL_CHARS);
         $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
         $ano = filter_input(INPUT_POST, "ano", FILTER_SANITIZE_SPECIAL_CHARS);
         $turma = filter_input(INPUT_POST, "turma", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -109,7 +124,7 @@
         $data = filter_input(INPUT_POST, "data", FILTER_SANITIZE_SPECIAL_CHARS);
         $registro = filter_input(INPUT_POST, "registro", FILTER_SANITIZE_SPECIAL_CHARS);
         $adendos = filter_input(INPUT_POST, "adendos", FILTER_SANITIZE_SPECIAL_CHARS);
-        $sql = "INSERT INTO pedagogia (Foto, Nome, AnoLetivo, Turma, Responsaveis, TelefoneEstudante, TelefoneResponsaveis, Endereco, Medicamento, Cgm, Cpf) VALUES ('$foto', '$nome', '$ano', '$turma', '$res', '$tele', '$telr', '$end', '$saude', '$cgm', '$cpf')";
+        $sql = "INSERT INTO pedagogia (Foto, Nome, AnoLetivo, Turma, Responsaveis, TelefoneEstudante, TelefoneResponsaveis, Endereco, Medicamento, Cgm, Cpf) VALUES ('$nomeArquivoNovo', '$nome', '$ano', '$turma', '$res', '$tele', '$telr', '$end', '$saude', '$cgm', '$cpf')";
     try{
         mysqli_query($conn, $sql);
         header("Location: alunos.php");
@@ -137,10 +152,19 @@
              <td>". $row["TelefoneResponsaveis"]. "</td>
              <td>". $row["Endereco"]. "</td>
              <td>". $row["Medicamento"]. "</td>
-             <td><button>Ver</button></td>
+             <td><button onclick='location.href=\"pesquisaocorr.php?termo=". $row["Nome"]."\"'>Ver</button></td>
              <td>". $row["Cgm"]. "</td>
              <td>". $row["Cpf"]. "</td>
             `
+            lin.addEventListener('click', function(){
+            const del = document.querySelector('.del');
+            del.style.display = 'flex';
+            setTimeout(() => {
+            del.style.bottom = '0';
+            del.style.opacity = '1';
+        }, 10)
+        })
+
             document.querySelector('.alunos').appendChild(lin);
             </script>";
         }
@@ -151,7 +175,7 @@
             <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
             <div class="info">
             <h1>Cadastro de Estudante</h1>
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno">
+            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno" enctype="multipart/form-data">
                 <div>
                     <label for="foto">Foto:</label>
                     <input name="foto" type="file" id="foto" accept=".png" required>

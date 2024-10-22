@@ -39,6 +39,7 @@
         <ul>
             <li title="Alunos"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências" style="background-color: #bbb8b8;"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
+            <li title="Gerenciar Acesso"><a href="admin.php"><img src="https://cdn-icons-png.flaticon.com/512/807/807292.png" alt=""></a></li>
         </ul>
     </nav>
     <div class="tab-content">
@@ -66,15 +67,44 @@
 
             </tbody>
         </table>
+        <button id="add">+ Adicionar ocorrência</button>
         </div>
     </main>
+    <?php 
+        if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"])){
+        $_SESSION["nome"] = $_POST["nome"];
+        $_SESSION["data"] = $_POST["data"];
+        $_SESSION["registro"] = $_POST["registro"];
+        $_SESSION["adendos"] = $_POST["adendos"];
+        $nomeDocumento = $_FILES['documento']['name'];
+        $diretorioDestino = "uploads/";
+        $nomeDocumentoNovo = uniqid(). "_". basename($nomeDocumento);
+        $caminhoCompleto = $diretorioDestino. $nomeDocumentoNovo;
+        if (move_uploaded_file($_FILES['documento']['tmp_name'], $caminhoCompleto)) {
+            echo "Documento carregado com sucesso!<br>";
+        }
+        $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
+        $data = filter_input(INPUT_POST, "data", FILTER_SANITIZE_SPECIAL_CHARS);
+        $registro = filter_input(INPUT_POST, "registro", FILTER_SANITIZE_SPECIAL_CHARS);
+        $adendos = filter_input(INPUT_POST, "adendos", FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $sql = "INSERT INTO ocorrencia (Nome, Data, Registro, Documentos, Adendos) VALUES ('$nome', '$data', '$registro', '$nomeDocumentoNovo', '$adendos')";
+        mysqli_query($conn, $sql);
+    }
+    ?>
+    <div class="arqct">
+            <div class="arq">
+            <button id="fcha"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
+                <h1>Arquivos</h1>
+            </div>
+    </div>
     <script>
         let lin;
     </script>
     <?php
-            $sql = "SELECT Nome, Data, Registro, FeitoPor, Gravação, Adendos FROM ocorrencia";
+            $sql = "SELECT Nome, Data, Registro, FeitoPor, Gravação, Documentos, Adendos FROM ocorrencia";
             $result = mysqli_query($conn, $sql);
-            while($row = mysqli_fetch_assoc($result)){
+            while($row = mysqli_fetch_assoc( $result)){
                 echo "<script>
                 lin = document.createElement('tr');
                 lin.innerHTML = `
@@ -83,7 +113,7 @@
                  <td>". $row["Registro"]. "</td>
                  <td>". $row["FeitoPor"]. "</td>
                  <td>". $row["Gravação"]. "</td>
-                 <td><button>Ver</button></td>
+                 <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
                  <td>". $row["Adendos"]. "</td>
                 `
                 document.querySelector('.alunos').appendChild(lin);
@@ -94,57 +124,32 @@
     <div class="cadalct">
         <div class="cadal">
             <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
-            <h1>Cadastro de Estudante</h1>
+            <h2>Ocorrência</h2>
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno" enctype="multipart/form-data">
                 <div>
-                    <label for="foto">Foto:</label>
-                    <input name="foto" type="file" id="foto" accept=".png" required>
-                </div>
-                <div>
-                    <label for="nome">Nome:</label>
+                    <label for="nome">Nome do Aluno:</label>
                     <input name="nome" type="text" id="nome" required>
                 </div>
                 <div>
-                    <label for="ano">Ano letivo:</label>
-                    <input name="ano" type="number" id="ano" required>
-                </div>
-                <div>
-                    <label for="turma">Turma:</label>
-                    <input name="turma" type="text" id="turma" required>
-                </div>
-                <div>
-                    <label for="responsaveis">Responsáveis:</label>
-                    <input name="res" type="text" id="responsaveis" required>
-                </div>
-                <div>
-                    <label for="telefone">Telefone do Estudante:</label>
-                    <input name="tele" type="tel" id="telefone">
+                    <label for="data">Data:</label>
+                    <input name="data" type="date" id="data">
                 </div> 
                 <div>
-                    <label for="telres">Telefone do Responsável:</label>
-                    <input name="telr" type="tel" id="telres" required>
-                </div>
+                    <label for="registro">Registro:</label>
+                    <input name="registro" type="text" id="registro">
+                </div> 
                 <div>
-                    <label for="Endereco">Endereço:</label>
-                    <input name="end" type="text" id="end" required>
-                </div>
+                    <label for="documento">Documentos:</label>
+                    <input name="documento" type="file" id="documento">
+                </div> 
                 <div>
-                    <label for="saude">Problema de Saúde / Medicamento:</label>
-                    <input name="saude" type="text" id="saude">
-                    <button>Ocorrência</button>
-                </div>
-                <div>
-                    <label for="cgm">CGM:</label>
-                    <input name="cgm" type="number" id="cgm" required>
-                </div>
-                <div>
-                    <label for="cpf">CPF:</label>
-                    <input name="cpf" type="text" id="cpf" required>
+                    <label for="adendos">Adendos:</label>
+                    <input name="adendos" type="text" id="adendos">
                 </div> 
                 <input type="submit" value="Adicionar" id="env">
                 </form>
         </div>
     </div>
-    <script src="alunos.js"></script>
+    <script src="ocorrencia.js"></script>
 </body>
 </html>

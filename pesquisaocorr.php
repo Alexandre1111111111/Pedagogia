@@ -39,6 +39,7 @@
         <ul>
             <li title="Alunos"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências" style="background-color: #bbb8b8;"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
+            <li title="Gerenciar Acesso"><a href="admin.php"><img src="https://cdn-icons-png.flaticon.com/512/807/807292.png" alt=""></a></li>
         </ul>
     </nav>
     <script>
@@ -100,7 +101,7 @@
                          <td>". $row["Registro"]. "</td>
                          <td>". $row["FeitoPor"]. "</td>
                          <td>". $row["Gravação"]. "</td>
-                         <td><button>Ver</button></td>
+                         <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
                          <td>". $row["Adendos"]. "</td>
                         `
                         document.querySelector('.alunos').appendChild(lin);

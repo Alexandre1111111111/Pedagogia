@@ -39,6 +39,7 @@
         <ul>
             <li title="Alunos" style="background-color: #bbb8b8;"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
+            <li title="Gerenciar Acesso"><a href="admin.php"><img src="https://cdn-icons-png.flaticon.com/512/807/807292.png" alt=""></a></li>
         </ul>
     </nav>
     <script>
@@ -100,7 +101,7 @@
                             echo "<script>
                             lin = document.createElement('tr');
                             lin.innerHTML = `
-                             <td><img src='' alt=''></td>
+                             <td><img src='uploads/" . $row["Foto"] . "' alt=''></td>
                              <td style='font-weight: bold;'>". $row["Nome"]. "</td>
                              <td>". $row["AnoLetivo"]. "</td>
                              <td>". $row["Turma"]. "</td>
@@ -109,7 +110,7 @@
                              <td>". $row["TelefoneResponsaveis"]. "</td>
                              <td>". $row["Endereco"]. "</td>
                              <td>". $row["Medicamento"]. "</td>
-                             <td><button>Ver</button></td>
+                             <td><button onclick='location.href=\"pesquisaocorr.php?termo=". $row["Nome"]."\"'>Ver</button></td>
                              <td>". $row["Cgm"]. "</td>
                              <td>". $row["Cpf"]. "</td>
                             `

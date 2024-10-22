@@ -8,6 +8,10 @@ const del = document.querySelector('.del');
 const fche = document.querySelector("#fche");
 const excct = document.querySelector(".excct");
 const delet = document.querySelector(".delet");
+const fchd = document.querySelector("#fchd");
+const editar = document.querySelector(".editar");
+const edict = document.querySelector(".edict");
+
 add.addEventListener("click", () => {
     cadalct.style.display = "flex";
     setTimeout(() => {
@@ -72,5 +76,32 @@ delet.addEventListener("click", () => {
     excct.style.display = "flex";
     setTimeout(() => {
         excct.style.opacity = "1";
+    }, 10)
+})
+
+const altr = document.querySelectorAll(".alunos tr");
+const cg = document.querySelectorAll(".cg");
+const cgme = document.querySelector(".cgme");
+
+let cgmid;
+
+for (let i = 0; i < altr.length; i++) {
+    altr[i].addEventListener("click", () => {
+        cgmid = cg[i].textContent;
+        cgme.value = cgmid;
+    }) 
+}
+
+fchd.addEventListener("click", () => {
+    edict.style.opacity = "0";
+    setTimeout(() => {
+        edict.style.display = "none";
+    }, 300)
+})
+
+editar.addEventListener("click", () => {
+    edict.style.display = "flex";
+    setTimeout(() => {
+        edict.style.opacity = "1";
     }, 10)
 })

@@ -409,7 +409,7 @@ html {
     align-items: center;
     justify-content: space-evenly;
 }
-.excct {
+.excct, .edict {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -422,7 +422,7 @@ html {
     top: 0;
     opacity: 0;
 }
-.exc {
+.exc, .edi {
     width: 40vw;
     height: 80vh;
     background-color: #ffffff;
@@ -434,7 +434,7 @@ html {
     overflow: hidden;
     position: relative;
 }
-#fche {
+#fche, #fchd {
     position: absolute;
     top: 0;
     right: 0;
@@ -451,14 +451,14 @@ html {
     align-items: center;
 }
 
-#fche:hover {
+#fche:hover, #fchd:hover {
     background-color: #fa9e9e;
 }
 
-#fche:active {
+#fche:active, #fchd:active {
     background-color: #cc2f2f;
 }
 
-#fche img {
+#fche img, #fchd img {
     height: 60%;
 }

@@ -1,6 +1,10 @@
 <?php
     include("banco.php");
     session_start();
+    if (!isset($_SESSION['cpfus'])) {
+        header("Location: index.php");
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" translate="no">
@@ -45,7 +49,7 @@
     <div class="tab-content">
         <div class="pes">
             <div>
-            <form action="pesquisa.php" method="get">
+            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="get">
             <input name="termo" type="text" placeholder="Pesquisar..">
             <input type="submit" value="Pesquisar">
             </form>
@@ -80,20 +84,25 @@
     </script>
         <div class="del">
             <button title="Editar" class="editar"><img src="https://cdn-icons-png.flaticon.com/512/2280/2280532.png" alt=""></button>
+            <button title="Exportar" class="exp"><img src="https://cdn-icons-png.flaticon.com/512/12067/12067207.png" alt=""></button>
             <button title="Excluir" class="delet"><img src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png" alt=""></button>
         </div>
         <div class="excct">
             <div class="exc">
                 <?php 
                     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["just"])){
-                        $cg = $_POST["cgme"];
-                        $sql = "DELETE FROM pedagogia WHERE Cgm = $cg";
+                        $al = $_POST["al"];
+                        $sql = "DELETE FROM pedagogia WHERE Nome = '$al'";
                         mysqli_query($conn, $sql);
                     }
                 ?>
             <button id="fche"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
                 <h1>Excluir o estudante</h1>
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                <div>
+                    <label style="pointer-events: none;" for="al">Nome:</label>
+                    <input name="al" type="text" id="al">
+                </div>
                     <div>
                         <label for="just">Justificativa:</label>
                         <input name="just" type="text" id="just" required>
@@ -105,9 +114,9 @@
             <div class="edict">
             <div class="edi">
             <?php 
-                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["turmae"])){
-                        $cg = $_POST["cgme"];
-                        $sql = "UPDATE pedagogia SET Turma = ?, TelefoneEstudante = ?, TelefoneResponsaveis = ?, Endereco = ?, Medicamento = ? WHERE Cgm = $cg";
+                    if($_SERVER["REQUEST_METHOD"] == "POST"){
+                        $al = $_POST["nomee"];
+                        $sql = "UPDATE pedagogia SET Turma = ?, TelefoneEstudante = ?, TelefoneResponsaveis = ?, Endereco = ?, Medicamento = ? WHERE Nome = '$al'";
                         $stmt = $conn->prepare($sql);
                         $stmt->bind_param("sssss", $_POST["turmae"], $_POST["telee"], $_POST["telre"], $_POST["ende"], $_POST["saudee"]);
                         $stmt->execute();
@@ -117,6 +126,10 @@
             <button id="fchd"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
                 <h1>Editar</h1>
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+                <div>
+                    <label style="pointer-events: none;" for="nomee">Nome:</label>
+                    <input name="nomee" type="text" id="nomee">
+                </div>
                 <div>
                     <label for="turmae">Turma:</label>
                     <input name="turmae" type="text" id="turmae">
@@ -182,7 +195,7 @@
             echo"Aluno já Cadastrado";
         }
     }
-
+if($_GET['termo'] == null) {
         $sql = "SELECT Foto, Nome, AnoLetivo, Turma, Responsaveis, TelefoneEstudante, TelefoneResponsaveis, Endereco, Medicamento, Cgm, Cpf FROM pedagogia";
         $result = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_assoc($result)){
@@ -191,7 +204,7 @@
             lin = document.createElement('tr');
             lin.innerHTML = `
              <td><img src='uploads/" . $row["Foto"] . "' alt=''></td>
-             <td style='font-weight: bold;'>". $row["Nome"]. "</td>
+             <td class='nm' style='font-weight: bold;'>". $row["Nome"]. "</td>
              <td>". $row["AnoLetivo"]. "</td>
              <td>". $row["Turma"]. "</td>
              <td>". $row["Responsaveis"]. "</td>
@@ -215,6 +228,59 @@
             document.querySelector('.alunos').appendChild(lin);
             </script>";
         }
+    }
+    else {
+        if (isset($_GET['termo'])) {
+            // Prevenir SQL injection utilizando prepared statements
+            $termo = "%" . $conn->real_escape_string($_GET['termo']) . "%";
+        
+            // Consulta SQL para buscar os produtos que correspondem ao termo de pesquisa
+            $sql = "SELECT * FROM pedagogia WHERE Nome LIKE ? OR Cgm LIKE ? OR Turma LIKE ?";
+            
+            // Preparar a consulta
+            if ($stmt = $conn->prepare($sql)) {
+                // Substitui os "?" pelos valores da variável $termo
+                $stmt->bind_param("sss", $termo, $termo, $termo);
+                
+                // Executar a consulta
+                $stmt->execute();
+                
+                // Obter o resultado
+                $resultado = $stmt->get_result();
+        
+                // Verificar se encontrou resultados
+                if ($resultado->num_rows > 0) {
+                    while($row = mysqli_fetch_assoc($resultado)){    
+                            echo "<script>
+                            lin = document.createElement('tr');
+                            lin.innerHTML = `
+                             <td><img src='uploads/" . $row["Foto"] . "' alt=''></td>
+                             <td style='font-weight: bold;'>". $row["Nome"]. "</td>
+                             <td>". $row["AnoLetivo"]. "</td>
+                             <td>". $row["Turma"]. "</td>
+                             <td>". $row["Responsaveis"]. "</td>
+                             <td>". $row["TelefoneEstudante"]. "</td>
+                             <td>". $row["TelefoneResponsaveis"]. "</td>
+                             <td>". $row["Endereco"]. "</td>
+                             <td>". $row["Medicamento"]. "</td>
+                             <td><button onclick='location.href=\"pesquisaocorr.php?termo=". $row["Nome"]."\"'>Ver</button></td>
+                             <td>". $row["Cgm"]. "</td>
+                             <td>". $row["Cpf"]. "</td>
+                            `
+                            document.querySelector('.alunos').appendChild(lin);
+                            </script>";
+                        }
+                } else {
+                    echo "Nenhum aluno encontrado.";
+                }
+                
+                // Fechar o statement
+                $stmt->close();
+            } else {
+                echo "Erro na preparação da consulta.";
+            }
+        }
+    }
             mysqli_close($conn);
             ?>
     <div class="cadalct">

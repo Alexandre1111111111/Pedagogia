@@ -11,6 +11,7 @@ const delet = document.querySelector(".delet");
 const fchd = document.querySelector("#fchd");
 const editar = document.querySelector(".editar");
 const edict = document.querySelector(".edict");
+const altr = document.querySelectorAll(".alunos tr");
 
 add.addEventListener("click", () => {
     cadalct.style.display = "flex";
@@ -55,6 +56,9 @@ window.addEventListener("click", (event) => {
         setTimeout(() => {
             del.style.display = "none";
         }, 300)
+        for (let i = 0; i < altr.length; i++) {
+            altr[i].style.backgroundColor = "";
+        }
     }
 })
 del.addEventListener("click", (event) => {
@@ -62,6 +66,14 @@ del.addEventListener("click", (event) => {
 })
 
 alunos.addEventListener("click", (event) => {
+    event.stopPropagation();
+})
+
+edict.addEventListener("click", (event) => {
+    event.stopPropagation();
+})
+
+excct.addEventListener("click", (event) => {
     event.stopPropagation();
 })
 
@@ -79,16 +91,21 @@ delet.addEventListener("click", () => {
     }, 10)
 })
 
-const altr = document.querySelectorAll(".alunos tr");
-const cg = document.querySelectorAll(".cg");
-const cgme = document.querySelector(".cgme");
+const nm = document.querySelectorAll(".nm");
+const nomee = document.querySelector("#nomee");
+const al = document.querySelector("#al");
 
-let cgmid;
+let alunonm;
 
 for (let i = 0; i < altr.length; i++) {
     altr[i].addEventListener("click", () => {
-        cgmid = cg[i].textContent;
-        cgme.value = cgmid;
+        alunonm = nm[i].textContent;
+        nomee.value = alunonm;
+        al.value = alunonm;
+        for (let j = 0; j < altr.length; j++) {
+            altr[j].style.backgroundColor = "";
+        }
+        altr[i].style.backgroundColor = "#dddddd";
     }) 
 }
 

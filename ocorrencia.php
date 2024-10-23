@@ -1,6 +1,10 @@
 <?php
     include("banco.php");
     session_start();
+    if (!isset($_SESSION['cpfus'])) {
+        header("Location: index.php");
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" translate="no">
@@ -45,7 +49,7 @@
     <div class="tab-content">
         <div class="pes">
             <div>
-            <form action="pesquisaocorr.php" method="get">
+            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="get">
             <input name="termo" type="text" placeholder="Pesquisar..">
             <input type="submit" value="Pesquisar">
             </form>
@@ -102,6 +106,7 @@
         let lin;
     </script>
     <?php
+    if($_GET['termo'] == null) {
             $sql = "SELECT Nome, Data, Registro, FeitoPor, Gravação, Documentos, Adendos FROM ocorrencia";
             $result = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_assoc( $result)){
@@ -119,6 +124,53 @@
                 document.querySelector('.alunos').appendChild(lin);
                 </script>";
             }
+        }
+        else {
+            if (isset($_GET['termo'])) {
+                // Prevenir SQL injection utilizando prepared statements
+                $termo = "%" . $conn->real_escape_string($_GET['termo']) . "%";
+            
+                // Consulta SQL para buscar os produtos que correspondem ao termo de pesquisa
+                $sql = "SELECT * FROM ocorrencia WHERE Nome LIKE ? OR Data LIKE ? OR FeitoPor LIKE ?";
+                
+                // Preparar a consulta
+                if ($stmt = $conn->prepare($sql)) {
+                    // Substitui os "?" pelos valores da variável $termo
+                    $stmt->bind_param("sss", $termo, $termo, $termo);
+                    
+                    // Executar a consulta
+                    $stmt->execute();
+                    
+                    // Obter o resultado
+                    $resultado = $stmt->get_result();
+            
+                    // Verificar se encontrou resultados
+                    if ($resultado->num_rows > 0) {
+                        while($row = mysqli_fetch_assoc($resultado)){    
+                            echo "<script>
+                            lin = document.createElement('tr');
+                            lin.innerHTML = `
+                             <td style='font-weight: bold;'>". $row["Nome"]. "</td>
+                             <td>". $row["Data"]. "</td>
+                             <td>". $row["Registro"]. "</td>
+                             <td>". $row["FeitoPor"]. "</td>
+                             <td>". $row["Gravação"]. "</td>
+                             <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
+                             <td>". $row["Adendos"]. "</td>
+                            `
+                            document.querySelector('.alunos').appendChild(lin);
+                            </script>";
+                    }} else {
+                        echo "Nenhum aluno encontrado.";
+                    }
+                    
+                    // Fechar o statement
+                    $stmt->close();
+                } else {
+                    echo "Erro na preparação da consulta.";
+                }
+            }
+        }
                 mysqli_close($conn);
     ?>
     <div class="cadalct">

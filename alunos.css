@@ -159,7 +159,7 @@ html {
     cursor: pointer;
 }
 .alunos tr:hover {
-    background-color: #d4caca;
+    background-color: #dddddd;
 }
 
 .alunos tr td button:hover {
@@ -340,7 +340,7 @@ html {
     background-color: #999999;
 }
 .del {
-    width: 20vw;
+    width: 25vw;
     height: 12vh;
     background-color: #ffffff;
     border: 0.1vh solid #616161;
@@ -384,14 +384,14 @@ html {
 }
 
 .delet:hover {
-    background-color: #ff3333;
+    background-color: #ff8282;
 }
 
 .editar img {
     height: 70%;
 }
 
-.delet img {
+.delet img, .exp img {
     height: 70%;
 }
 
@@ -401,6 +401,21 @@ html {
 
 .delet:active {
     background-color: #cc2f2f;
+}
+
+.exp {
+    border: 0.1vh solid #4da9ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exp:hover {
+    background-color: #c2f5ec;
+}
+
+.exp:active {
+    background-color: #21c7d3;
 }
 
 .del form {
@@ -461,4 +476,10 @@ html {
 
 #fche img, #fchd img {
     height: 60%;
+}
+
+#nomee, #al {
+    pointer-events: none;
+    border: none;
+    font-weight: bold;
 }

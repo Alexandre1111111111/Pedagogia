@@ -43,6 +43,13 @@
 </head>
 <body>
     <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+    <div class="lg">
+            <img src="logo.png" alt="">
+            <div>
+            <h1>SRP</h1>
+            <p>Sistema de Registro Pedagógico</p>
+            </div>
+        </div>
       <p>Faça login</p>
       
        <label for="Cpf">CPF<input name="cpfus" type="text" id="cpfus" required></label>
@@ -51,7 +58,6 @@
 
        <button type="submit">Continuar</button>
         <a href="esqueci.html">Esqueci minha senha</a>
-        <a href="Criar.html">Não tenho conta!</a>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </form>
     <script src="https://apis.google.com/js/platform.js" async defer></script>

@@ -33,7 +33,7 @@
             <h1 id="us"></h1>
             <div id="ft"></div>
             <div class="opt">
-                <button>Sair</button>
+            <a href="logout.php"><button>Sair</button></a>
             </div>
             </div>
         </div>
@@ -43,7 +43,6 @@
         <ul>
             <li title="Alunos" style="background-color: #bbb8b8;"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
-            <li title="Gerenciar Acesso"><a href="admin.php"><img src="https://cdn-icons-png.flaticon.com/512/807/807292.png" alt=""></a></li>
         </ul>
     </nav>
     <div class="tab-content">
@@ -76,7 +75,9 @@
 
             </tbody>
         </table>
+        <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
         <button id="add">+ Adicionar estudante</button>
+        <?php } ?>
         </div>
     </main>
     <script>
@@ -155,47 +156,8 @@
                 </form>
             </div>
     <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"])){
-        $_SESSION["nome"] = $_POST["nome"];
-        $_SESSION["ano"] = $_POST["ano"];
-        $_SESSION["turma"] = $_POST["turma"];
-        $_SESSION["res"] = $_POST["res"];
-        $_SESSION["tele"] = $_POST["tele"];
-        $_SESSION["telr"] = $_POST["telr"];
-        $_SESSION["end"] = $_POST["end"];
-        $_SESSION["saude"] = $_POST["saude"];
-        $_SESSION["cgm"] = $_POST["cgm"];
-        $_SESSION["cpf"] = $_POST["cpf"];
-
-        $nomeArquivo = $_FILES['foto']['name']; 
-        $diretorioDestino = "uploads/";
-        $nomeArquivoNovo = uniqid() . "_" . basename($nomeArquivo);
-        $caminhoCompleto = $diretorioDestino . $nomeArquivoNovo;
-        if (move_uploaded_file($_FILES['foto']['tmp_name'], $caminhoCompleto)) {
-            echo "Imagem carregada com sucesso!<br>";
-        }
-        
-        $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
-        $ano = filter_input(INPUT_POST, "ano", FILTER_SANITIZE_SPECIAL_CHARS);
-        $turma = filter_input(INPUT_POST, "turma", FILTER_SANITIZE_SPECIAL_CHARS);
-        $res = filter_input(INPUT_POST, "res", FILTER_SANITIZE_SPECIAL_CHARS);
-        $tele = filter_input(INPUT_POST, "tele", FILTER_SANITIZE_SPECIAL_CHARS);
-        $telr = filter_input(INPUT_POST, "telr", FILTER_SANITIZE_SPECIAL_CHARS);
-        $end = filter_input(INPUT_POST, "end", FILTER_SANITIZE_SPECIAL_CHARS);
-        $saude = filter_input(INPUT_POST, "saude", FILTER_SANITIZE_SPECIAL_CHARS);
-        $cgm = filter_input(INPUT_POST, "cgm", FILTER_SANITIZE_SPECIAL_CHARS);
-        $cpf = filter_input(INPUT_POST, "cpf", FILTER_SANITIZE_SPECIAL_CHARS);
-
-        $sql = "INSERT INTO pedagogia (Foto, Nome, AnoLetivo, Turma, Responsaveis, TelefoneEstudante, TelefoneResponsaveis, Endereco, Medicamento, Cgm, Cpf) VALUES ('$nomeArquivoNovo', '$nome', '$ano', '$turma', '$res', '$tele', '$telr', '$end', '$saude', '$cgm', '$cpf')";
-    try{
-        mysqli_query($conn, $sql);
-        header("Location: alunos.php");
-        }
-        catch(mysqli_sql_exception){
-            echo"Aluno já Cadastrado";
-        }
-    }
-if($_GET['termo'] == null) {
+    include("usuario.php");
+if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
         $sql = "SELECT Foto, Nome, AnoLetivo, Turma, Responsaveis, TelefoneEstudante, TelefoneResponsaveis, Endereco, Medicamento, Cgm, Cpf FROM pedagogia";
         $result = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_assoc($result)){
@@ -212,7 +174,7 @@ if($_GET['termo'] == null) {
              <td>". $row["TelefoneResponsaveis"]. "</td>
              <td>". $row["Endereco"]. "</td>
              <td>". $row["Medicamento"]. "</td>
-             <td><button onclick='location.href=\"pesquisaocorr.php?termo=". $row["Nome"]."\"'>Ver</button></td>
+             <td><button onclick='location.href=\"ocorrencia.php?termo=". $row["Nome"]."\"'>Ver</button></td>
              <td class='cg'>". $row["Cgm"]. "</td>
              <td>". $row["Cpf"]. "</td>
             `
@@ -263,7 +225,7 @@ if($_GET['termo'] == null) {
                              <td>". $row["TelefoneResponsaveis"]. "</td>
                              <td>". $row["Endereco"]. "</td>
                              <td>". $row["Medicamento"]. "</td>
-                             <td><button onclick='location.href=\"pesquisaocorr.php?termo=". $row["Nome"]."\"'>Ver</button></td>
+                             <td><button onclick='location.href=\"ocorrencia.php?termo=". $row["Nome"]."\"'>Ver</button></td>
                              <td>". $row["Cgm"]. "</td>
                              <td>". $row["Cpf"]. "</td>
                             `
@@ -285,55 +247,66 @@ if($_GET['termo'] == null) {
             ?>
     <div class="cadalct">
         <div class="cadal">
-            <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
+        <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
             <div class="info">
             <h1>Cadastro de Estudante</h1>
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno" enctype="multipart/form-data">
+            <form action="cadal.php" method="post" id="formAluno" enctype="multipart/form-data">
                 <div>
-                    <label for="foto">Foto:</label>
-                    <input name="foto" type="file" id="foto" accept=".png" required>
+                    <label for="foto">Foto:
+                    <input name="foto" type="file" id="foto" accept=".png, .jpeg, .jpg" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="nome">Nome:</label>
+                    <label for="nome">Nome:
                     <input name="nome" type="text" id="nome" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="ano">Ano letivo:</label>
+                    <label for="ano">Ano letivo:
                     <input name="ano" type="number" id="ano" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="turma">Turma:</label>
+                    <label for="turma">Turma:
                     <input name="turma" type="text" id="turma" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="responsaveis">Responsáveis:</label>
+                    <label for="responsaveis">Responsáveis:
                     <input name="res" type="text" id="responsaveis" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="telefone">Telefone do Estudante:</label>
+                    <label for="telefone">Telefone do Estudante:
                     <input name="tele" type="tel" id="telefone">
+                    </label>
                 </div> 
                 <div>
-                    <label for="telres">Telefone do Responsável:</label>
+                    <label for="telres">Telefone do Responsável:
                     <input name="telr" type="tel" id="telres" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="Endereco">Endereço:</label>
+                    <label for="Endereco">Endereço:
                     <input name="end" type="text" id="end" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="saude">Problema de Saúde / Medicamento:</label>
+                    <label for="saude">Problema de Saúde / Medicamento:
                     <input name="saude" type="text" id="saude">
+                    </label>
                 </div>
                 <div>
-                    <label for="cgm">CGM:</label>
+                    <label for="cgm">CGM:
                     <input name="cgm" type="number" id="cgm" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="cpf">CPF:</label>
+                    <label for="cpf">CPF:
                     <input name="cpf" type="text" id="cpf" required>
+                    </label>
                 </div> 
-                <input type="submit" value="Adicionar" id="env">
+                <input type="submit" value="+ Adicionar" id="env">
                 </form>
                 </div>
         </div>

@@ -104,8 +104,10 @@ for (let i = 0; i < altr.length; i++) {
         al.value = alunonm;
         for (let j = 0; j < altr.length; j++) {
             altr[j].style.backgroundColor = "";
+            altr[j].style.borderColor = "";
         }
         altr[i].style.backgroundColor = "#dddddd";
+        altr[i].style.borderColor = "#73e964";
     }) 
 }
 

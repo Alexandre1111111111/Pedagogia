@@ -33,7 +33,7 @@
             <h1 id="us"></h1>
             <div id="ft"></div>
             <div class="opt">
-                <button>Sair</button>
+            <a href="logout.php"><button>Sair</button></a>
             </div>
             </div>
         </div>
@@ -43,7 +43,6 @@
         <ul>
             <li title="Alunos"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências" style="background-color: #bbb8b8;"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
-            <li title="Gerenciar Acesso"><a href="admin.php"><img src="https://cdn-icons-png.flaticon.com/512/807/807292.png" alt=""></a></li>
         </ul>
     </nav>
     <div class="tab-content">
@@ -71,10 +70,13 @@
 
             </tbody>
         </table>
+        <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
         <button id="add">+ Adicionar ocorrência</button>
+        <?php }?>
         </div>
     </main>
     <?php 
+        include("usuario.php");
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"])){
         $_SESSION["nome"] = $_POST["nome"];
         $_SESSION["data"] = $_POST["data"];
@@ -92,8 +94,10 @@
         $registro = filter_input(INPUT_POST, "registro", FILTER_SANITIZE_SPECIAL_CHARS);
         $adendos = filter_input(INPUT_POST, "adendos", FILTER_SANITIZE_SPECIAL_CHARS);
 
-        $sql = "INSERT INTO ocorrencia (Nome, Data, Registro, Documentos, Adendos) VALUES ('$nome', '$data', '$registro', '$nomeDocumentoNovo', '$adendos')";
+        $sql = "INSERT INTO ocorrencia (Nome, Data, Registro, FeitoPor, Documentos, Adendos) VALUES ('$nome', '$data', '$registro', '$usuario', '$nomeDocumentoNovo', '$adendos')";
         mysqli_query($conn, $sql);
+        header("Location: ocorrencia.php");
+        exit();
     }
     ?>
     <div class="arqct">
@@ -106,7 +110,7 @@
         let lin;
     </script>
     <?php
-    if($_GET['termo'] == null) {
+    if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
             $sql = "SELECT Nome, Data, Registro, FeitoPor, Gravação, Documentos, Adendos FROM ocorrencia";
             $result = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_assoc( $result)){
@@ -127,24 +131,19 @@
         }
         else {
             if (isset($_GET['termo'])) {
-                // Prevenir SQL injection utilizando prepared statements
+
                 $termo = "%" . $conn->real_escape_string($_GET['termo']) . "%";
-            
-                // Consulta SQL para buscar os produtos que correspondem ao termo de pesquisa
+
                 $sql = "SELECT * FROM ocorrencia WHERE Nome LIKE ? OR Data LIKE ? OR FeitoPor LIKE ?";
                 
-                // Preparar a consulta
                 if ($stmt = $conn->prepare($sql)) {
-                    // Substitui os "?" pelos valores da variável $termo
+
                     $stmt->bind_param("sss", $termo, $termo, $termo);
                     
-                    // Executar a consulta
                     $stmt->execute();
                     
-                    // Obter o resultado
                     $resultado = $stmt->get_result();
-            
-                    // Verificar se encontrou resultados
+
                     if ($resultado->num_rows > 0) {
                         while($row = mysqli_fetch_assoc($resultado)){    
                             echo "<script>
@@ -164,7 +163,6 @@
                         echo "Nenhum aluno encontrado.";
                     }
                     
-                    // Fechar o statement
                     $stmt->close();
                 } else {
                     echo "Erro na preparação da consulta.";
@@ -184,11 +182,11 @@
                 </div>
                 <div>
                     <label for="data">Data:</label>
-                    <input name="data" type="date" id="data">
+                    <input name="data" type="date" id="data" required>
                 </div> 
                 <div>
                     <label for="registro">Registro:</label>
-                    <input name="registro" type="text" id="registro">
+                    <input name="registro" type="text" id="registro" required>
                 </div> 
                 <div>
                     <label for="documento">Documentos:</label>

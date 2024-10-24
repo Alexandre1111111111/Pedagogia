@@ -5,6 +5,12 @@
         header("Location: index.php");
         exit();
     }
+    $sql = "SELECT * FROM acesso WHERE Admin = 1";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+if ($row["Cpf"] != $_SESSION['cpfus']) {
+    header("Location: alunos.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" translate="no">
@@ -33,7 +39,7 @@
             <h1 id="us"></h1>
             <div id="ft"></div>
             <div class="opt">
-                <button>Sair</button>
+                <a href="logout.php"><button>Sair</button></a>
             </div>
             </div>
         </div>
@@ -43,7 +49,6 @@
         <ul>
             <li title="Alunos"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
-            <li title="Gerenciar Acesso" style="background-color: #bbb8b8;"><a href="admin.php"><img src="https://cdn-icons-png.flaticon.com/512/807/807292.png" alt=""></a></li>
         </ul>
     </nav>
     <div class="tab-content">
@@ -67,23 +72,11 @@
 
             </tbody>
         </table>
+        <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
         <button id="add">+ Adicionar Acesso</button>
+        <?php }?>
         </div>
     </main>
-    <?php 
-        if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["em"])){
-        $_SESSION["em"] = $_POST["em"];
-        $_SESSION["cpf"] = $_POST["cpf"];
-        $_SESSION["nome"] = $_POST["nome"];
-
-        $em = filter_input(INPUT_POST, "em", FILTER_SANITIZE_SPECIAL_CHARS);
-        $cpf = filter_input(INPUT_POST, "cpf", FILTER_SANITIZE_SPECIAL_CHARS);
-        $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
-
-        $sql = "INSERT INTO acesso (Nome, Email, Cpf) VALUES ('$nome', '$em', '$cpf')";
-        mysqli_query($conn, $sql);
-    }
-    ?>
     <div class="arqct">
             <div class="arq">
             <button id="fcha"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
@@ -94,6 +87,7 @@
         let lin;
     </script>
     <?php
+        include("usuario.php");
     if($_GET['termo'] == null) {
             $sql = "SELECT * FROM acesso";
             $result = mysqli_query($conn, $sql);
@@ -157,14 +151,14 @@
         <div class="cadal">
             <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
             <h2>Cadastro Pedagógico</h2>
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno">
+            <form action="cadmin.php" method="post" id="formAluno">
                 <div>
                     <label for="nome">Nome:</label>
                     <input name="nome" type="text" id="nome" required>
                 </div> 
                 <div>
                     <label for="em">Email:</label>
-                    <input name="em" type="email" id="em" required>
+                    <input placeholder="@escola" pattern=".+@escola.pr.gov.br" name="em" type="email" id="em" required>
                 </div> 
                 <div>
                     <label for="cpf">Cpf:</label>

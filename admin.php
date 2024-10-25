@@ -56,7 +56,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
             <div>
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="get">
             <input name="termo" type="text" placeholder="Pesquisar..">
-            <input type="submit" value="Pesquisar">
+            <input id="bus" type="submit" value="Pesquisar">
             </form>
             </div>
         </div>
@@ -73,7 +73,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
             </tbody>
         </table>
         <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
-        <button id="add">+ Adicionar Acesso</button>
+        <button id="addp">+ Adicionar Acesso</button>
         <?php }?>
         </div>
     </main>
@@ -88,7 +88,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
     </script>
     <?php
         include("usuario.php");
-    if($_GET['termo'] == null) {
+    if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
             $sql = "SELECT * FROM acesso";
             $result = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_assoc( $result)){
@@ -97,9 +97,17 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                 lin.innerHTML = `
                     <td style='font-weight: bold;'>". $row["Nome"]. "</td>
                     <td>". $row["Email"]. "</td>
-                    <td>". $row["Cpf"]. "</td>
+                    <td class='nm'>". $row["Cpf"]. "</td>
                 `
                 document.querySelector('.alunos').appendChild(lin);
+                    lin.addEventListener('click', function(){
+                    const del = document.querySelector('.del');
+                    del.style.display = 'flex';
+                    setTimeout(() => {
+                    del.style.bottom = '0';
+                    del.style.opacity = '1';
+            }, 10)
+            })
                 </script>";
             }
         }
@@ -130,9 +138,17 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                             lin.innerHTML = `
                             <td style='font-weight: bold;'>". $row["Nome"]. "</td>
                              <td>". $row["Email"]. "</td>
-                             <td>". $row["Cpf"]. "</td>
+                             <td class='nm'>". $row["Cpf"]. "</td>
                             `
                             document.querySelector('.alunos').appendChild(lin);
+                            lin.addEventListener('click', function(){
+                            const del = document.querySelector('.del');
+                            del.style.display = 'flex';
+                            setTimeout(() => {
+                            del.style.bottom = '0';
+                            del.style.opacity = '1';
+                            }, 10)
+                        })
                             </script>";
                     }} else {
                         echo "Nenhum aluno encontrado.";
@@ -147,10 +163,30 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
         }
                 mysqli_close($conn);
     ?>
+            <div class="excct">
+            <div class="excp">
+            <button id="fche"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
+            <div class="info">
+                <h1>Excluir Acesso?</h1>
+                <form action="cadmin.php" method="post">
+                <div>
+                    <label style="pointer-events: none;" for="pe">CPF:
+                    <input name="pe" type="text" id="pe">
+                    </label>
+                </div>
+                        <input id="excl" type="submit" value="Excluir">
+                    </div>
+                </form>
+            </div>
+            </div>
+        <div class="del">
+            <button title="Excluir" class="delet"><img src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png" alt=""></button>
+        </div>
     <div class="cadalct">
-        <div class="cadal">
+        <div style="height: 50vh;" class="cadal">
             <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
-            <h2>Cadastro Pedagógico</h2>
+            <div class="info">
+            <h1>Cadastro Pedagógico</h1>
             <form action="cadmin.php" method="post" id="formAluno">
                 <div>
                     <label for="nome">Nome:</label>
@@ -164,10 +200,11 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                     <label for="cpf">Cpf:</label>
                     <input name="cpf" type="text" id="cpf" required>
                 </div> 
-                <input type="submit" value="Adicionar" id="env">
+                <input type="submit" value="+ Adicionar" id="env">
                 </form>
+            </div>
         </div>
     </div>
-    <script src="ocorrencia.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

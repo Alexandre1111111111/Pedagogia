@@ -18,18 +18,17 @@
     $result = $stmt->get_result();
 
     while($row = mysqli_fetch_assoc($result)){    
-    if($row["Cpf"] === $cpfus && $row["Senha"] === $senha){
+    if($row["Cpf"] === $cpfus && $senha === 'pedagogiaSRP'){
         $_SESSION['cpfus'] = $cpfus;
         header("Location: alunos.php");
+        exit();
     }
     }
-
     $stmt->close();
-
 }
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +41,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="reg">
     <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
     <div class="lg">
             <img src="logo.png" alt="">
@@ -55,12 +55,21 @@
        <label for="Cpf">CPF<input name="cpfus" type="text" id="cpfus" required></label>
 
        <label for="Senha">Senha<input name="senha" type="password" id="senha" required></label>
+        <?php if($_SERVER["REQUEST_METHOD"] == "POST") { ?>
+       <div class="ng">
+       <h1>CPF ou Senha Incorretos</h1>
+       </div>
+       <?php } ?>
 
        <button type="submit">Continuar</button>
-        <a href="esqueci.html">Esqueci minha senha</a>
+        <p class="ou">ou</p>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </form>
+    </div>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <?php 
+    
+    ?>
     <script src="script.js"></script>
 </body>
 </html>

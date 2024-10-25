@@ -1,11 +1,12 @@
 body{
     height: 100vh;
-    background: #b4b4b4;
+    background: linear-gradient(317deg, rgba(193,193,193,1) 0%, rgba(105,105,105,1) 50%, rgba(209,209,209,1) 100%);
     font-family: sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    margin: 0;
 }
 p {
     font-size: 2.5vh;
@@ -18,12 +19,21 @@ form{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 25%;
+    width: 80%;
+}
+.reg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 34%;
     background: #fff;
-    padding: 4rem;
-    border-radius: 0.5rem;
+    border-radius: 1vh;
     height: 100%;
-    box-shadow: 0 0 0 1.8rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 0 5vh rgba(0, 0, 0, 0.219);
+    overflow: hidden;
+    user-select: none;
+    border: 0.3vh solid #000;
 }
 label {
     width: 100%;
@@ -96,7 +106,7 @@ a + a{
 
 .lg {
     width: 100%;
-    height: 28vh;
+    height: 24vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -131,4 +141,46 @@ a + a{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.ou {
+    margin: 3vh;
+    font-size: 2vh;
+    color: #3f5531;
+    margin-bottom: 1vh;
+    border-bottom: 0.3vh solid #0000008f;
+    width: 50%;
+    text-align: center;
+    padding: 1vh;
+}
+.ng {
+    margin: 0;
+    color: #ca0202;
+    margin-bottom: 1vh;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.ng h1 {
+    font-size: 2vh;
+    background-color: #ff252579;
+    padding: 1.5vh;
+    border: 0.3vh dashed #ff0000;
+}
+#senha {
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    .reg {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 990px) and (min-width: 568px) {
+    .reg {
+        width: 60%;
+    }
 }

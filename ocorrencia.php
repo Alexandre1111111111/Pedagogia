@@ -50,7 +50,7 @@
             <div>
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="get">
             <input name="termo" type="text" placeholder="Pesquisar..">
-            <input type="submit" value="Pesquisar">
+            <input id="bus" type="submit" value="Pesquisar">
             </form>
             </div>
         </div>
@@ -71,7 +71,7 @@
             </tbody>
         </table>
         <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
-        <button id="add">+ Adicionar ocorrência</button>
+        <button id="addo">+ Adicionar ocorrência</button>
         <?php }?>
         </div>
     </main>
@@ -85,6 +85,9 @@
         $nomeDocumento = $_FILES['documento']['name'];
         $diretorioDestino = "uploads/";
         $nomeDocumentoNovo = uniqid(). "_". basename($nomeDocumento);
+        if(empty($_FILES['documento']['name'])) {
+            $nomeDocumentoNovo = "";
+        }
         $caminhoCompleto = $diretorioDestino. $nomeDocumentoNovo;
         if (move_uploaded_file($_FILES['documento']['tmp_name'], $caminhoCompleto)) {
             echo "Documento carregado com sucesso!<br>";
@@ -174,30 +177,37 @@
     <div class="cadalct">
         <div class="cadal">
             <button id="fch"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
-            <h2>Ocorrência</h2>
+            <div class="info">
+            <h1>Ocorrência</h1>
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno" enctype="multipart/form-data">
                 <div>
-                    <label for="nome">Nome do Aluno:</label>
+                    <label for="nome">Nome do Aluno:
                     <input name="nome" type="text" id="nome" required>
+                    </label>
                 </div>
                 <div>
-                    <label for="data">Data:</label>
+                    <label for="data">Data:
                     <input name="data" type="date" id="data" required>
+                    </label>
                 </div> 
                 <div>
-                    <label for="registro">Registro:</label>
+                    <label for="registro">Registro:
                     <input name="registro" type="text" id="registro" required>
+                    </label>
                 </div> 
                 <div>
-                    <label for="documento">Documentos:</label>
+                    <label for="documento">Documentos:
                     <input name="documento" type="file" id="documento">
+                    </label>
                 </div> 
                 <div>
-                    <label for="adendos">Adendos:</label>
+                    <label for="adendos">Adendos:
                     <input name="adendos" type="text" id="adendos">
+                    </label>
                 </div> 
-                <input type="submit" value="Adicionar" id="env">
+                <input type="submit" value="+ Adicionar" id="env">
                 </form>
+            </div>
         </div>
     </div>
     <script src="ocorrencia.js"></script>

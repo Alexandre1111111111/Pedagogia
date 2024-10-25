@@ -51,6 +51,7 @@ html {
     font-size: 3vh;
     background-color: #f5f5f5;
     border-right: 0.3vh solid #616161;
+    overflow: hidden;
 }
 
 .lte ul {
@@ -71,6 +72,7 @@ html {
     align-items: center;
     justify-content: center;
     transition-duration: 0.3s;
+    overflow: hidden;
 }
 .lte li a img {
     height: 6vh;
@@ -156,6 +158,10 @@ html {
     box-shadow: 0 0 0.5vh rgba(0, 0, 0, 0.2);
     position: relative;
 }
+
+.cad:hover {
+    background-color: #d1d1d1;
+}
 .alunos tr td button {
     width: 100%;
     height: 100%;
@@ -190,7 +196,7 @@ html {
     border: 0.3vh solid #616161;
     border-radius: 1vh;
     position: absolute;
-    top: 11vh;
+    top: 10.8vh;
     right: 1vw;
     display: none;
     opacity: 0;
@@ -224,7 +230,7 @@ html {
     background-color: #ff6767;
 }
 
-#add {
+#add, #excl, #atua, #addo, #addp {
     width: 100%;
     height: 10vh;
     font-size: 3vh;
@@ -237,12 +243,49 @@ html {
     letter-spacing: 0.1vw;
 }
 
-#add:hover {
-    background-color: #999999;
+#add:hover, #addo:hover, #addp:hover {
+    background-color: #cccccc;
 }
 
-#add:active {
-    background-color: #666666;
+#add:active,
+ #addo:active,
+ #addp:active {
+    background-color: #999999;
+}
+#excl {
+    border-color: #cc2f2f;
+    color: #b41e1e;
+    letter-spacing: 0.1vw;
+    background-color: #ffd8d8;
+}
+
+#atua {
+    border-color: #47c720;
+    color: #3ccf68;
+    letter-spacing: 0.1vw;
+    background-color: #d2ffd8;
+}
+#excl:hover {
+    border-color: #e92525;
+    color: #8a1111;
+    background-color: #ff7070;
+}
+
+#atua:hover {
+    border-color: #47ff0f;
+    color: #51b46f;
+    background-color: #d7f5d7;
+}
+#excl:active {
+    border-color: #b32929;
+    color: #921b1b;
+    background-color: #802c2c;
+}
+
+#atua:active {
+    border-color: #35a015;
+    color: #2ba54f;
+    background-color: #d7f5d7;
 }
 
 .cadalct {
@@ -371,17 +414,36 @@ html {
 .pes {
     width: 100%;
     height: 5vh;
-    background-color: #ffffff;
+    background-color: #e9e9e9;
     border: 0.3vh solid #616161;
     display: flex;
     align-items: center;
     justify-content: right;
     overflow: hidden;
 }
-
 .pes input {
     height: 70%;
     font-size: 3vh;
+    border: 0.3vh solid #000000;
+    border-top-left-radius: 1vh;
+    border-bottom-left-radius: 1vh;
+}
+#bus {
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border-left: none;
+    border-radius: 0;
+    border-top-right-radius: 1vh;
+    border-bottom-right-radius: 1vh;
+    transition-duration: 0.3s;
+}
+
+#bus:hover {
+    background-color: #cccccc;
+}
+
+#bus:active {
+    background-color: #999999;
 }
 .pes div {
     width: 30%;
@@ -528,6 +590,9 @@ html {
     overflow: hidden;
     position: relative;
 }
+.exc {
+    height: 40vh;
+}
 #fche, #fchd {
     position: absolute;
     top: 0;
@@ -557,8 +622,29 @@ html {
     height: 60%;
 }
 
-#nomee, #al {
+#cp, #al {
     pointer-events: none;
     border: none;
     font-weight: bold;
+}
+.excp {
+    width: 40vw;
+    height: 40vh;
+    background-color: #ffffff;
+    border: 0.3vh solid #616161;
+    border-radius: 3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+#pe {
+    border: none;
+}
+
+@media screen and (max-width: 900px) {
+    .lte {
+        float: inline-start;
+    }
 }

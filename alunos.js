@@ -32,6 +32,7 @@ cad.addEventListener("click", () => {
     setTimeout(() => {
         opt.style.opacity = "1";
     }, 10)
+    cad.style.backgroundColor = "#d1d1d1";
 })
 
 window.addEventListener("click", (event) => {
@@ -40,6 +41,7 @@ window.addEventListener("click", (event) => {
         setTimeout(() => {
             opt.style.display = "none";
         }, 300)
+        cad.style.backgroundColor = "";
     }
 })
 opt.addEventListener("click", (event) => {
@@ -92,7 +94,7 @@ delet.addEventListener("click", () => {
 })
 
 const nm = document.querySelectorAll(".nm");
-const nomee = document.querySelector("#nomee");
+const cp = document.querySelector("#cp");
 const al = document.querySelector("#al");
 
 let alunonm;
@@ -100,7 +102,7 @@ let alunonm;
 for (let i = 0; i < altr.length; i++) {
     altr[i].addEventListener("click", () => {
         alunonm = nm[i].textContent;
-        nomee.value = alunonm;
+        cp.value = alunonm;
         al.value = alunonm;
         for (let j = 0; j < altr.length; j++) {
             altr[j].style.backgroundColor = "";
@@ -124,3 +126,4 @@ editar.addEventListener("click", () => {
         edict.style.opacity = "1";
     }, 10)
 })
+ 

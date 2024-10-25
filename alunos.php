@@ -50,7 +50,7 @@
             <div>
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="get">
             <input name="termo" type="text" placeholder="Pesquisar..">
-            <input type="submit" value="Pesquisar">
+            <input id="bus" type="submit" value="Pesquisar">
             </form>
             </div>
         </div>
@@ -93,31 +93,33 @@
                 <?php 
                     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["just"])){
                         $al = $_POST["al"];
-                        $sql = "DELETE FROM pedagogia WHERE Nome = '$al'";
+                        $sql = "DELETE FROM pedagogia WHERE Cpf = '$al'";
                         mysqli_query($conn, $sql);
                     }
                 ?>
             <button id="fche"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
+            <div class="info">
                 <h1>Excluir o estudante</h1>
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                 <div>
-                    <label style="pointer-events: none;" for="al">Nome:</label>
+                    <label style="pointer-events: none;" for="al">CPF:</label>
                     <input name="al" type="text" id="al">
                 </div>
                     <div>
                         <label for="just">Justificativa:</label>
                         <input name="just" type="text" id="just" required>
                     </div>
-                        <input type="submit" value="Excluir">
+                        <input id="excl" type="submit" value="Excluir">
                     </div>
                 </form>
             </div>
+            </div>
             <div class="edict">
-            <div class="edi">
+            <div style="height: 60vh;" class="edi">
             <?php 
                     if($_SERVER["REQUEST_METHOD"] == "POST"){
-                        $al = $_POST["nomee"];
-                        $sql = "UPDATE pedagogia SET Turma = ?, TelefoneEstudante = ?, TelefoneResponsaveis = ?, Endereco = ?, Medicamento = ? WHERE Nome = '$al'";
+                        $al = $_POST["cp"];
+                        $sql = "UPDATE pedagogia SET Turma = ?, TelefoneEstudante = ?, TelefoneResponsaveis = ?, Endereco = ?, Medicamento = ? WHERE Cpf = '$al'";
                         $stmt = $conn->prepare($sql);
                         $stmt->bind_param("sssss", $_POST["turmae"], $_POST["telee"], $_POST["telre"], $_POST["ende"], $_POST["saudee"]);
                         $stmt->execute();
@@ -125,11 +127,12 @@
                     }
                 ?>
             <button id="fchd"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
+            <div class="info">
                 <h1>Editar</h1>
                 <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                 <div>
-                    <label style="pointer-events: none;" for="nomee">Nome:</label>
-                    <input name="nomee" type="text" id="nomee">
+                    <label style="pointer-events: none;" for="cp">CPF:</label>
+                    <input name="cp" type="text" id="cp">
                 </div>
                 <div>
                     <label for="turmae">Turma:</label>
@@ -151,9 +154,10 @@
                     <label for="saudee">Problema de Saúde / Medicamento:</label>
                     <input name="saudee" type="text" id="saudee">
                 </div>
-                        <input type="submit" value="Atualizar">
-                    </div>
+                        <input id="atua" type="submit" value="Atualizar">
                 </form>
+            </div>
+            </div>
             </div>
     <?php
     include("usuario.php");
@@ -166,7 +170,7 @@ if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
             lin = document.createElement('tr');
             lin.innerHTML = `
              <td><img src='uploads/" . $row["Foto"] . "' alt=''></td>
-             <td class='nm' style='font-weight: bold;'>". $row["Nome"]. "</td>
+             <td style='font-weight: bold;'>". $row["Nome"]. "</td>
              <td>". $row["AnoLetivo"]. "</td>
              <td>". $row["Turma"]. "</td>
              <td>". $row["Responsaveis"]. "</td>
@@ -176,7 +180,7 @@ if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
              <td>". $row["Medicamento"]. "</td>
              <td><button onclick='location.href=\"ocorrencia.php?termo=". $row["Nome"]."\"'>Ver</button></td>
              <td class='cg'>". $row["Cgm"]. "</td>
-             <td>". $row["Cpf"]. "</td>
+             <td class='nm'>". $row["Cpf"]. "</td>
             `
             lin.addEventListener('click', function(){
             const del = document.querySelector('.del');

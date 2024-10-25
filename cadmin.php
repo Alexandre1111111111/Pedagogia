@@ -1,5 +1,10 @@
 <?php 
 include("banco.php");
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pe"])){
+    $pe = $_POST["pe"];
+    $sql = "DELETE FROM acesso WHERE Cpf = '$pe'";
+    mysqli_query($conn, $sql);
+}
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["em"])){
         $_SESSION["em"] = $_POST["em"];
         $_SESSION["cpf"] = $_POST["cpf"];

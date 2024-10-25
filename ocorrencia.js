@@ -1,10 +1,10 @@
-const add = document.querySelector("#add");
+const addo = document.querySelector("#addo");
 const fch = document.querySelector("#fch");
 const cadalct = document.querySelector(".cadalct");
 const cad = document.querySelector(".cad");
 const opt = document.querySelector(".opt");
 
-add.addEventListener("click", () => {
+addo.addEventListener("click", () => {
     cadalct.style.display = "flex";
     setTimeout(() => {
         cadalct.style.opacity = "1";
@@ -16,6 +16,7 @@ cad.addEventListener("click", () => {
     setTimeout(() => {
         opt.style.opacity = "1";
     }, 10)
+    cad.style.backgroundColor = "#d1d1d1";
 })
 
 
@@ -32,6 +33,7 @@ window.addEventListener("click", (event) => {
         setTimeout(() => {
             opt.style.display = "none";
         }, 300)
+        cad.style.backgroundColor = "";
     }
 })
 opt.addEventListener("click", (event) => {

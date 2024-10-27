@@ -16,25 +16,17 @@ const al = document.querySelector("#pe");
 
 let alunonm;
 
-for (let i = 1; i < altr.length; i++) {
+for (let i = 0; i < altr.length; i++) {
     altr[i].addEventListener("click", () => {
         alunonm = nm[i].textContent;
         al.value = alunonm;
-        for (let j = 1; j < altr.length; j++) {
+        for (let j = 0; j < altr.length; j++) {
             altr[j].style.backgroundColor = "";
             altr[j].style.borderColor = "";
         }
         altr[i].style.backgroundColor = "#dddddd";
         altr[i].style.borderColor = "#73e964";
     }) 
-}
-if(document.querySelector("#addp")) {
-addp.addEventListener("click", () => {
-    cadalct.style.display = "flex";
-    setTimeout(() => {
-        cadalct.style.opacity = "1";
-    }, 10)
-})
 }
 
 cad.addEventListener("click", () => {
@@ -43,19 +35,6 @@ cad.addEventListener("click", () => {
         opt.style.opacity = "1";
     }, 10)
     cad.style.backgroundColor = "#d1d1d1";
-})
-
-window.addEventListener("click", (event) => {
-    if (!event.target.matches(".alunos")) {
-        del.style.opacity = "0";
-        del.style.bottom = "-12vh";
-        setTimeout(() => {
-            del.style.display = "none";
-        }, 300)
-        for (let i = 1; i < altr.length; i++) {
-            altr[i].style.backgroundColor = "";
-        }
-    }
 })
 
 window.addEventListener("click", (event) => {
@@ -73,44 +52,14 @@ opt.addEventListener("click", (event) => {
 cad.addEventListener("click", (event) => {
     event.stopPropagation();
 })
-
-del.addEventListener("click", (event) => {
-    event.stopPropagation();
-})
-
 alunos.addEventListener("click", (event) => {
     event.stopPropagation();
-})
-
-excct.addEventListener("click", (event) => {
-    event.stopPropagation();
-})
-
-fche.addEventListener("click", () => {
-    excct.style.opacity = "0";
-    setTimeout(() => {
-        excct.style.display = "none";
-    }, 300)
-})
-
-delet.addEventListener("click", () => {
-    excct.style.display = "flex";
-    setTimeout(() => {
-        excct.style.opacity = "1";
-    }, 10)
-})
-
-fch.addEventListener("click", () => {
-    cadalct.style.opacity = "0";
-    setTimeout(() => {
-        cadalct.style.display = "none";
-    }, 300)
 })
 
 const na = document.querySelector(".na");
 const th = document.querySelector("table thead");
 
-if(altr.length == 0 && !document.querySelector("#addp")) {
+if(altr.length == 0) {
     na.style.display = "flex";
     th.style.display = "none";
 }

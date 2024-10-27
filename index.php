@@ -57,7 +57,7 @@
        <label for="Senha">Senha<input name="senha" type="password" id="senha" required></label>
         <?php if($_SERVER["REQUEST_METHOD"] == "POST") { ?>
        <div class="ng">
-       <h1>CPF ou Senha Incorretos</h1>
+       <h1>CPF ou Senha Inválidos</h1>
        </div>
        <?php } ?>
 

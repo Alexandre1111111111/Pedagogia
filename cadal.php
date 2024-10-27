@@ -1,8 +1,24 @@
 <?php
 include("banco.php");
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"])){
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["al"])){
+        $al = $_POST["al"];
+        $ck = $_POST["jsf"];
+        $nme = $_POST["nme"];
+        $sql = "DELETE FROM pedagogia WHERE Cpf = '$al'";
+        mysqli_query($conn, $sql);
+        $sql = "INSERT INTO excluidos (Nome, Justificativa) VALUES ('$nme', '$ck')";
+        mysqli_query($conn, $sql);
+    }
+    else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["cp"])){
+        $al = $_POST["cp"];
+        $sql = "UPDATE pedagogia SET Turma = ?, TelefoneEstudante = ?, TelefoneResponsaveis = ?, Endereco = ?, Medicamento = ? WHERE Cpf = '$al'";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $_POST["turmae"], $_POST["telee"], $_POST["telre"], $_POST["ende"], $_POST["saudee"]);
+        $stmt->execute();
+        $stmt->close();
+    }
+    else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"])){
         $_SESSION["nome"] = $_POST["nome"];
-        $_SESSION["ano"] = $_POST["ano"];
         $_SESSION["turma"] = $_POST["turma"];
         $_SESSION["res"] = $_POST["res"];
         $_SESSION["tele"] = $_POST["tele"];
@@ -21,7 +37,7 @@ include("banco.php");
         }
         
         $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
-        $ano = filter_input(INPUT_POST, "ano", FILTER_SANITIZE_SPECIAL_CHARS);
+        $ano = date("Y");
         $turma = filter_input(INPUT_POST, "turma", FILTER_SANITIZE_SPECIAL_CHARS);
         $res = filter_input(INPUT_POST, "res", FILTER_SANITIZE_SPECIAL_CHARS);
         $tele = filter_input(INPUT_POST, "tele", FILTER_SANITIZE_SPECIAL_CHARS);

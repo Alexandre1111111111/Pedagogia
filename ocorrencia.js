@@ -3,13 +3,16 @@ const fch = document.querySelector("#fch");
 const cadalct = document.querySelector(".cadalct");
 const cad = document.querySelector(".cad");
 const opt = document.querySelector(".opt");
+const altr = document.querySelectorAll(".alunos tr");
 
+if(document.querySelector("#addo")) {
 addo.addEventListener("click", () => {
     cadalct.style.display = "flex";
     setTimeout(() => {
         cadalct.style.opacity = "1";
     }, 10)
 })
+}
 
 cad.addEventListener("click", () => {
     opt.style.display = "block";
@@ -42,3 +45,11 @@ opt.addEventListener("click", (event) => {
 cad.addEventListener("click", (event) => {
     event.stopPropagation();
 })
+
+const na = document.querySelector(".na");
+const th = document.querySelector("table thead");
+
+if(altr.length == 0 && !document.querySelector("#addo")) {
+    na.style.display = "flex";
+    th.style.display = "none";
+}

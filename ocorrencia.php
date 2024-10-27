@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="alunos.css">
     <link rel="Icon" href="logo.png">
-    <title>SRP - Sistema de Registro Pedagógico</title>
+    <title>SRP - Ocorrências</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -43,6 +43,7 @@
         <ul>
             <li title="Alunos"><a href="alunos.php"><img src="https://cdn-icons-png.flaticon.com/512/10252/10252944.png" alt=""></a></li>
             <li title="Ocorrências" style="background-color: #bbb8b8;"><a href="ocorrencia.php"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584808.png" alt=""></a></li>
+            <li class="exb" title="Excluidos"><a href="excluidos.php"><img src="https://cdn-icons-png.flaticon.com/512/484/484611.png" alt=""></a></li>
         </ul>
     </nav>
     <div class="tab-content">
@@ -54,6 +55,9 @@
             </form>
             </div>
         </div>
+        <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
+        <button id="addo">+ Adicionar ocorrência</button>
+        <?php }?>
         <table>
             <thead>
                 <tr>
@@ -70,9 +74,7 @@
 
             </tbody>
         </table>
-        <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
-        <button id="addo">+ Adicionar ocorrência</button>
-        <?php }?>
+        <div class="na">Nenhuma Ocorrência encontrada</div>
         </div>
     </main>
     <?php 
@@ -103,12 +105,6 @@
         exit();
     }
     ?>
-    <div class="arqct">
-            <div class="arq">
-            <button id="fcha"><img src="https://cdn-icons-png.flaticon.com/512/109/109602.png" alt=""></button>
-                <h1>Arquivos</h1>
-            </div>
-    </div>
     <script>
         let lin;
     </script>
@@ -121,10 +117,10 @@
                 lin = document.createElement('tr');
                 lin.innerHTML = `
                  <td style='font-weight: bold;'>". $row["Nome"]. "</td>
-                 <td>". $row["Data"]. "</td>
+                 <td>". date("d-m-Y", strtotime($row["Data"])). "</td>
                  <td>". $row["Registro"]. "</td>
                  <td>". $row["FeitoPor"]. "</td>
-                 <td>". $row["Gravação"]. "</td>
+                 <td>". date("d-m-Y H:i:s", strtotime($row["Gravação"])). "</td>
                  <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
                  <td>". $row["Adendos"]. "</td>
                 `
@@ -153,10 +149,10 @@
                             lin = document.createElement('tr');
                             lin.innerHTML = `
                              <td style='font-weight: bold;'>". $row["Nome"]. "</td>
-                             <td>". $row["Data"]. "</td>
+                             <td>". date("d-m-Y", strtotime($row["Data"])). "</td>
                              <td>". $row["Registro"]. "</td>
                              <td>". $row["FeitoPor"]. "</td>
-                             <td>". $row["Gravação"]. "</td>
+                             <td>". date("d-m-Y H:i:s", strtotime($row["Gravação"])). "</td>
                              <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
                              <td>". $row["Adendos"]. "</td>
                             `
@@ -181,17 +177,17 @@
             <h1>Ocorrência</h1>
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="formAluno" enctype="multipart/form-data">
                 <div>
-                    <label for="nome">Nome do Aluno:
+                    <label for="nome"><em>*</em>Nome do Aluno:
                     <input name="nome" type="text" id="nome" required>
                     </label>
                 </div>
                 <div>
-                    <label for="data">Data:
+                    <label for="data"><em>*</em>Data:
                     <input name="data" type="date" id="data" required>
                     </label>
                 </div> 
                 <div>
-                    <label for="registro">Registro:
+                    <label for="registro"><em>*</em>Registro:
                     <input name="registro" type="text" id="registro" required>
                     </label>
                 </div> 
@@ -205,6 +201,7 @@
                     <input name="adendos" type="text" id="adendos">
                     </label>
                 </div> 
+                <h1 id="ob">* Obrigatório</h1>
                 <input type="submit" value="+ Adicionar" id="env">
                 </form>
             </div>

@@ -1,7 +1,7 @@
 header {
     width: 100%;
     height: 18vh;
-    border-bottom: 0.3vh solid #616161;
+    border-bottom: 0.4vh solid #616161;
     background-color: #f5f5f5;
 }
 body {
@@ -52,6 +52,8 @@ html {
     background-color: #f5f5f5;
     border-right: 0.3vh solid #616161;
     overflow: hidden;
+    position: relative;
+    box-shadow: 0.1vh 0.1vh 0.1vh #000000;
 }
 
 .lte ul {
@@ -110,11 +112,21 @@ html {
     height: 82vh;
 }
 
+table thead {
+    position: sticky;
+    top: -0.08vh;
+}
+
 .tab table th,
 .tab table td {
     border: 0.1vh solid #616161;
     padding: 1vh;
     text-align: center;
+    max-width: 15vw;
+    overflow: hidden;
+}
+.tab table td {
+    word-break: break-all;
 }
 
 .tab table th {
@@ -155,7 +167,7 @@ html {
     padding-right: 2vh;
     transition-duration: 0.3s;
     border: 0.1vh solid #000000;
-    box-shadow: 0 0 0.5vh rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0.5vh rgb(0, 0, 0);
     position: relative;
 }
 
@@ -172,6 +184,7 @@ html {
     cursor: pointer;
     transition-duration: 0.3s;
     border-radius: 1vh;
+    box-shadow: 0.05vh 0.05vh 0.05vh #000000;
 }
 .alunos tr {
     cursor: pointer;
@@ -179,7 +192,6 @@ html {
 .alunos tr:hover {
     background-color: #dddddd;
 }
-
 .alunos tr td button:hover {
     background-color: #cccccc;
 }
@@ -202,11 +214,12 @@ html {
     opacity: 0;
     transition-duration: 0.3s;
     background: linear-gradient(to right, #ffffff, #cccccc);
-    box-shadow: 0 0 0.5vh rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0.5vh rgb(0, 0, 0);
     padding: 1vh;
     padding-top: 3vh;
     padding-bottom: 3vh;
     cursor: default;
+    z-index: 5;
 }
 
 .opt button {
@@ -220,6 +233,7 @@ html {
     transition-duration: 0.3s;
     border-radius: 1vh;
     letter-spacing: 0.1vw;
+    box-shadow: 0.1vh 0.1vh 0.1vh #000000;
 }
 
 .opt button:hover {
@@ -234,23 +248,23 @@ html {
     width: 100%;
     height: 10vh;
     font-size: 3vh;
-    background-color: #dadada;
-    color: #000000;
-    border: 0.3vh solid #616161;
+    background-color: #d3e2d0;
+    color: #0f7401;
+    border: 0.3vh solid #065703;
+    text-shadow: 0.1vh 0.1vh 0.1vh #13610088;
     cursor: pointer;
     transition-duration: 0.3s;
-    border-radius: 1vh;
     letter-spacing: 0.1vw;
 }
 
 #add:hover, #addo:hover, #addp:hover {
-    background-color: #cccccc;
+    background-color: #c9ffd5;
 }
 
 #add:active,
  #addo:active,
  #addp:active {
-    background-color: #999999;
+    background-color: #a2ff9a;
 }
 #excl {
     border-color: #cc2f2f;
@@ -427,6 +441,7 @@ html {
     border: 0.3vh solid #000000;
     border-top-left-radius: 1vh;
     border-bottom-left-radius: 1vh;
+    box-shadow: 0.1vh 0.1vh 0.1vh #000000;
 }
 #bus {
     cursor: pointer;
@@ -483,8 +498,9 @@ html {
 .del {
     width: 25vw;
     height: 12vh;
-    background-color: #ffffff;
-    border: 0.1vh solid #616161;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(180,180,180,1) 100%);
+    border: 0.3vh solid #616161;
     transition-duration: 0.3s;
     border-top-left-radius: 10vh;
     position: absolute;
@@ -494,6 +510,7 @@ html {
     align-items: center;
     justify-content: space-evenly;
     opacity: 0;
+    box-shadow: 0.3vh 0.3vh 0.3vh #000000;
 }
 .del button {
     width: 8vh;
@@ -505,6 +522,7 @@ html {
     border-radius: 1vh;
     background-color: #99999975;
     margin-left: 3vh;
+    box-shadow: 0.1vh 0.1vh 0.1vh #000000;
 }
 .editar {
     border: 0.1vh solid #73e964;
@@ -581,7 +599,7 @@ html {
 .exc, .edi {
     width: 40vw;
     height: 80vh;
-    background-color: #ffffff;
+    background: linear-gradient(to right, #ffffff, #cccccc);
     border: 0.3vh solid #616161;
     border-radius: 3vh;
     display: flex;
@@ -591,7 +609,7 @@ html {
     position: relative;
 }
 .exc {
-    height: 40vh;
+    height: 50vh;
 }
 #fche, #fchd {
     position: absolute;
@@ -622,15 +640,16 @@ html {
     height: 60%;
 }
 
-#cp, #al {
+#cp, #al, #pe, #nme {
     pointer-events: none;
     border: none;
     font-weight: bold;
+    background-color: transparent;
 }
 .excp {
     width: 40vw;
     height: 40vh;
-    background-color: #ffffff;
+    background: linear-gradient(to right, #ffffff, #cccccc);
     border: 0.3vh solid #616161;
     border-radius: 3vh;
     display: flex;
@@ -642,9 +661,62 @@ html {
 #pe {
     border: none;
 }
+#chk {
+    width: 100%;
+    height: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 3vh;
+}
+#forma, #transf {
+    width: fit-content;
+    height: 3vh;
+    cursor: pointer;
+}
+#chk label {
+    font-size: 2.5vh;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+}
+em {
+    color: #bd0000;
+    font-style: normal;
+}
+.exb {
+    position: absolute;
+    bottom: 0;
+    border-top: 0.3vh solid #616161;
+}
+table {
+    box-shadow: 0.3vh 0.3vh 0.3vh #000000;
+}
+#ob {
+    color: #bd0000;
+    text-align: left;
+    border: none;
+    font-size: 2vh;
+    margin: 0;
+    width: 100%;
+}
+.na {
+    width: 100%;
+    height: 7vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffb9b9c4;
+    color: #4d0000;
+    border: 0.3vh dashed #ff0000;
+    letter-spacing: 0.1vw;
+    font-size: 2.5vh;
+}
 
 @media screen and (max-width: 900px) {
     .lte {
-        float: inline-start;
+        float: none;
     }
 }

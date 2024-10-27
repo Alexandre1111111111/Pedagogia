@@ -58,6 +58,7 @@
         <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
         <button id="addo">+ Adicionar ocorrência</button>
         <?php }?>
+        <div class="tb">
         <table>
             <thead>
                 <tr>
@@ -74,6 +75,7 @@
 
             </tbody>
         </table>
+        </div>
         <div class="na">Nenhuma Ocorrência encontrada</div>
         </div>
     </main>
@@ -112,8 +114,9 @@
     if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
             $sql = "SELECT Nome, Data, Registro, FeitoPor, Gravação, Documentos, Adendos FROM ocorrencia";
             $result = mysqli_query($conn, $sql);
+            echo "<script>";
             while($row = mysqli_fetch_assoc( $result)){
-                echo "<script>
+                echo "
                 lin = document.createElement('tr');
                 lin.innerHTML = `
                  <td style='font-weight: bold;'>". $row["Nome"]. "</td>
@@ -124,28 +127,29 @@
                  <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
                  <td>". $row["Adendos"]. "</td>
                 `
-                document.querySelector('.alunos').appendChild(lin);
-                </script>";
+                document.querySelector('.alunos').appendChild(lin)";
             }
+            echo "</script>";
         }
         else {
             if (isset($_GET['termo'])) {
 
                 $termo = "%" . $conn->real_escape_string($_GET['termo']) . "%";
 
-                $sql = "SELECT * FROM ocorrencia WHERE Nome LIKE ? OR Data LIKE ? OR FeitoPor LIKE ?";
+                $sql = "SELECT * FROM ocorrencia WHERE Nome LIKE ? OR Data LIKE ? OR FeitoPor LIKE ? OR Registro LIKE ?";
                 
                 if ($stmt = $conn->prepare($sql)) {
 
-                    $stmt->bind_param("sss", $termo, $termo, $termo);
+                    $stmt->bind_param("ssss", $termo, $termo, $termo, $termo);
                     
                     $stmt->execute();
                     
                     $resultado = $stmt->get_result();
 
                     if ($resultado->num_rows > 0) {
+                        echo "<script>";
                         while($row = mysqli_fetch_assoc($resultado)){    
-                            echo "<script>
+                            echo "
                             lin = document.createElement('tr');
                             lin.innerHTML = `
                              <td style='font-weight: bold;'>". $row["Nome"]. "</td>
@@ -156,15 +160,12 @@
                              <td><a href='uploads/". $row["Documentos"]."'>". $row["Documentos"]."</a></td>
                              <td>". $row["Adendos"]. "</td>
                             `
-                            document.querySelector('.alunos').appendChild(lin);
-                            </script>";
-                    }} else {
-                        echo "Nenhum aluno encontrado.";
+                            document.querySelector('.alunos').appendChild(lin)";
                     }
+                    echo "</script>";
+                }
                     
                     $stmt->close();
-                } else {
-                    echo "Erro na preparação da consulta.";
                 }
             }
         }

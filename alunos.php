@@ -58,6 +58,7 @@
         <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
         <button id="add">+ Adicionar estudante</button>
         <?php } ?>
+        <div class="tb">
         <table>
             <thead>
                 <tr>
@@ -79,6 +80,7 @@
 
             </tbody>
         </table>
+        </div>
         <div class="na">Nenhum aluno encontrado</div>
         </div>
     </main>
@@ -161,9 +163,10 @@
 if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
         $sql = "SELECT Foto, Nome, AnoLetivo, Turma, Responsaveis, TelefoneEstudante, TelefoneResponsaveis, Endereco, Medicamento, Cgm, Cpf FROM pedagogia";
         $result = mysqli_query($conn, $sql);
-        while($row = mysqli_fetch_assoc($result)){
 
-            echo "<script>
+            echo "<script>";
+            while($row = mysqli_fetch_assoc($result)){
+            echo "
             lin = document.createElement('tr');
             lin.innerHTML = `
              <td><img src='uploads/" . $row["Foto"] . "' alt=''></td>
@@ -188,9 +191,9 @@ if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
         }, 10)
         })
 
-            document.querySelector('.alunos').appendChild(lin);
-            </script>";
+            document.querySelector('.alunos').appendChild(lin);";
         }
+            echo "</script>";
     }
     else {
         if (isset($_GET['termo'])) {
@@ -207,8 +210,9 @@ if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
                 $resultado = $stmt->get_result();
         
                 if ($resultado->num_rows > 0) {
+                    echo "<script>";
                     while($row = mysqli_fetch_assoc($resultado)){    
-                            echo "<script>
+                            echo "
                             lin = document.createElement('tr');
                             lin.innerHTML = `
                                 <td><img src='uploads/" . $row["Foto"] . "' alt=''></td>
@@ -233,16 +237,12 @@ if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
                                 del.style.bottom = '0';
                                 del.style.opacity = '1';
                             }, 10)
-                    })
-                            </script>";
+                    })";
                         }
-                } else {
-                    echo "Nenhum aluno encontrado.";
+                        echo "</script>";
                 }
                 
                 $stmt->close();
-            } else {
-                echo "Erro na preparação da consulta.";
             }
         }
     }

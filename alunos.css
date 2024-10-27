@@ -107,9 +107,13 @@ html {
 }
 
 .tab-content {
-    overflow: auto;
     width: 100%;
     height: 82vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.tb {
+    overflow: auto;
 }
 
 table thead {

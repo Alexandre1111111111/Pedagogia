@@ -64,6 +64,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
         <?php if(empty( $_GET['termo'] ) || $_GET['termo'] == null) { ?>
         <button id="addp">+ Adicionar Acesso</button>
         <?php }?>
+        <div class="tb">
         <table>
             <thead>
                 <tr>
@@ -76,6 +77,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
 
             </tbody>
         </table>
+        </div>
         <div class="na">Nenhum acesso encontrado</div>
         </div>
     </main>
@@ -87,8 +89,9 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
     if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
             $sql = "SELECT * FROM acesso";
             $result = mysqli_query($conn, $sql);
+            echo "<script>";
             while($row = mysqli_fetch_assoc( $result)){
-                echo "<script>
+                echo "
                 lin = document.createElement('tr');
                 lin.innerHTML = `
                     <td style='font-weight: bold;'>". $row["Nome"]. "</td>
@@ -108,9 +111,9 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                     }
                     else {
                     lin.style.backgroundColor = '#C3C5FF';
-                    }
-                </script>";
+                    }";
             }
+            echo "</script>";
         }
         else {
             if (isset($_GET['termo'])) {
@@ -128,8 +131,9 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                     $resultado = $stmt->get_result();
             
                     if ($resultado->num_rows > 0) {
+                        echo "<script>";
                         while($row = mysqli_fetch_assoc($resultado)){    
-                            echo "<script>
+                            echo "
                             lin = document.createElement('tr');
                             lin.innerHTML = `
                             <td style='font-weight: bold;'>". $row["Nome"]. "</td>
@@ -149,9 +153,10 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                         }
                         else {
                         lin.style.backgroundColor = '#C3C5FF';
-                        }
-                            </script>";
-                    }}
+                        }";
+                    }
+                    echo "</script>";
+                }
                     
                     $stmt->close();
                 }

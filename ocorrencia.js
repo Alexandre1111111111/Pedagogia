@@ -53,3 +53,10 @@ if(altr.length == 0 && !document.querySelector("#addo")) {
     na.style.display = "flex";
     th.style.display = "none";
 }
+else if(altr.length == 0) {
+    na.style.display = "flex";
+    th.style.display = "none";
+    na.textContent = "Nenhuma ocorrência disponível";
+    na.style.backgroundColor = "#dddddd";
+    na.style.borderColor = "#585858";
+}

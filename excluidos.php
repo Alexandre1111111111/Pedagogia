@@ -5,12 +5,6 @@
         header("Location: index.php");
         exit();
     }
-    $sql = "SELECT * FROM acesso WHERE Admin = 1";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-if ($row["Cpf"] != $_SESSION['cpfus']) {
-    header("Location: alunos.php");
-}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" translate="no">
@@ -61,6 +55,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
             </form>
             </div>
         </div>
+        <div class="tb">
         <table>
             <thead>
                 <tr>
@@ -73,6 +68,7 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
 
             </tbody>
         </table>
+        </div>
         <div class="na">Nenhum aluno disponível</div>
         </div>
     </main>
@@ -84,17 +80,18 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
     if(empty( $_GET['termo'] ) || $_GET['termo'] == null) {
             $sql = "SELECT * FROM excluidos";
             $result = mysqli_query($conn, $sql);
+            echo "<script>";
             while($row = mysqli_fetch_assoc( $result)){
-                echo "<script>
+                echo "
                 lin = document.createElement('tr');
                 lin.innerHTML = `
                     <td style='font-weight: bold;'>". $row["Nome"]. "</td>
                     <td>". date("d-m-Y H:i:s", strtotime($row["Data"])). "</td>
                     <td class='nm'>". $row["Justificativa"]. "</td>
                 `
-                document.querySelector('.alunos').appendChild(lin);
-                </script>";
+                document.querySelector('.alunos').appendChild(lin);";
             }
+            echo "</script>";
         }
         else {
             if (isset($_GET['termo'])) {
@@ -112,17 +109,19 @@ if ($row["Cpf"] != $_SESSION['cpfus']) {
                     $resultado = $stmt->get_result();
             
                     if ($resultado->num_rows > 0) {
+                        echo "<script>";
                         while($row = mysqli_fetch_assoc($resultado)){    
-                            echo "<script>
+                            echo "
                             lin = document.createElement('tr');
                             lin.innerHTML = `
                                 <td style='font-weight: bold;'>". $row["Nome"]. "</td>
                                 <td>". date("d-m-Y H:i:s", strtotime($row["Data"])). "</td>
                                 <td class='nm'>". $row["Justificativa"]. "</td>
                             `
-                            document.querySelector('.alunos').appendChild(lin);
-                            </script>";
-                    }}
+                            document.querySelector('.alunos').appendChild(lin);";
+                    }
+                    echo "</script>";
+                }
                     
                     $stmt->close();
                 }

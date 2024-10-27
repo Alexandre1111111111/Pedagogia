@@ -183,3 +183,10 @@ if(altr.length == 0 && !document.querySelector("#add")) {
     na.style.display = "flex";
     th.style.display = "none";
 }
+else if(altr.length == 0) {
+    na.style.display = "flex";
+    th.style.display = "none";
+    na.textContent = "Nenhum aluno cadastrado";
+    na.style.backgroundColor = "#dddddd";
+    na.style.borderColor = "#585858";
+}
